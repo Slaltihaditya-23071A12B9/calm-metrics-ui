@@ -1,11 +1,22 @@
 
 import { useState } from "react";
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
-export const Header = () => {
+interface HeaderProps {
+  userName: string;
+  userRole: string;
+}
+
+export const Header = ({ userName, userRole }: HeaderProps) => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   
   const notifications = [
     { id: 1, message: "Blood glucose reading reminder", time: "10 minutes ago" },
@@ -13,9 +24,21 @@ export const Header = () => {
     { id: 3, message: "Medication reminder: Metformin", time: "4 hours ago" },
   ];
 
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out successfully",
+      description: "You have been logged out.",
+    });
+    navigate("/login");
+  };
+
   return (
     <div className="bg-white h-16 px-6 flex items-center justify-between shadow-sm">
-      <h1 className="text-xl font-semibold text-gray-800">Patient Dashboard</h1>
+      <h1 className="text-xl font-semibold text-gray-800">
+        {userRole === "doctor" ? "Doctor Dashboard" : 
+         userRole === "guardian" ? "Guardian Dashboard" : "Dashboard"}
+      </h1>
       
       <div className="flex items-center space-x-4">
         <div className="relative">
@@ -55,8 +78,14 @@ export const Header = () => {
         </div>
         
         <div className="flex items-center">
-          <span className="text-sm font-medium mr-2">Welcome back, John!</span>
+          <span className="text-sm font-medium mr-2">
+            Welcome, {userName} ({userRole})
+          </span>
         </div>
+        
+        <Button variant="ghost" size="icon" onClick={handleLogout}>
+          <LogOut size={18} />
+        </Button>
       </div>
     </div>
   );
