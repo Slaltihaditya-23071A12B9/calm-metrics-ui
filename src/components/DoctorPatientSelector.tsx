@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { User, UserPlus } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export interface Patient {
   id: number;
@@ -22,24 +23,40 @@ interface DoctorPatientSelectorProps {
 export const DoctorPatientSelector = ({ patients, onPatientSelect }: DoctorPatientSelectorProps) => {
   const [selectedPatientId, setSelectedPatientId] = useState<string>("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSelectChange = (value: string) => {
     setSelectedPatientId(value);
     onPatientSelect(value ? parseInt(value) : null);
+    
+    // If a patient is selected, we could also navigate to their detail page
+    if (value) {
+      // Uncomment this to enable automatic navigation when selecting a patient
+      // navigate(`/patients/${value}`);
+    }
   };
 
   const handleAddNewPatient = () => {
     toast({
       title: "Add Patient",
-      description: "This functionality would allow adding a new patient.",
+      description: "This functionality would connect to a backend API in a production environment.",
     });
     // In a real implementation, this would open a modal or navigate to a patient creation form
   };
 
   const handleScheduleAppointment = () => {
+    if (!selectedPatientId) {
+      toast({
+        title: "Select a patient first",
+        description: "Please select a patient before scheduling an appointment.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     toast({
       title: "Schedule Appointment",
-      description: "This functionality would allow scheduling an appointment.",
+      description: "This functionality would connect to a backend API in a production environment.",
     });
     // In a real implementation, this would open a modal or navigate to an appointment creation form
   };

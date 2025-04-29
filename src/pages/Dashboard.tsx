@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { DoctorPatientSelector, Patient } from "@/components/DoctorPatientSelector";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Sample patient data
 const doctorPatients: Patient[] = [
@@ -123,11 +124,12 @@ const Dashboard = () => {
           </Card>
         </div>
       ) : isDoctor ? (
-        <div className="mt-8 text-center p-8 bg-gray-50 rounded-lg border border-gray-200">
-          <h3 className="text-xl font-medium text-gray-600">Please select a patient to view details</h3>
-          <p className="text-gray-500 mt-2">
-            Use the patient selector above to view a specific patient's data
-          </p>
+        <div className="mt-8">
+          <Alert>
+            <AlertDescription>
+              Please select a patient from the dropdown above to view their detailed information and health metrics.
+            </AlertDescription>
+          </Alert>
         </div>
       ) : (
         <div className="mt-8">

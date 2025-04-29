@@ -3,11 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, User, ChevronRight } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Patients = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   
   // Mock patient data
   const patients = [
@@ -18,6 +21,13 @@ const Patients = () => {
     { id: 5, name: "Robert Brown", age: 62, lastVisit: "Apr 15, 2025", condition: "Heart Disease", status: "Needs Attention" }
   ];
 
+  const handleAddPatient = () => {
+    toast({
+      title: "Add Patient",
+      description: "This functionality would be connected to a backend API in a production environment.",
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -25,7 +35,7 @@ const Patients = () => {
           <h2 className="text-2xl font-semibold text-gray-800">Your Patients</h2>
           <p className="text-gray-500">Manage and monitor patient health</p>
         </div>
-        <Button>
+        <Button onClick={handleAddPatient}>
           Add New Patient
         </Button>
       </div>
@@ -50,7 +60,8 @@ const Patients = () => {
             </thead>
             <tbody>
               {patients.map(patient => (
-                <tr key={patient.id} className="border-b hover:bg-gray-50">
+                <tr key={patient.id} className="border-b hover:bg-gray-50 cursor-pointer"
+                    onClick={() => navigate(`/patients/${patient.id}`)}>
                   <td className="p-4">
                     <div className="flex items-center">
                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 mr-3">
@@ -72,9 +83,7 @@ const Patients = () => {
                     </span>
                   </td>
                   <td className="p-4">
-                    <Link to={`/patients/${patient.id}`} className="text-blue-600 hover:text-blue-800">
-                      <ChevronRight size={18} />
-                    </Link>
+                    <ChevronRight size={18} className="text-blue-600" />
                   </td>
                 </tr>
               ))}

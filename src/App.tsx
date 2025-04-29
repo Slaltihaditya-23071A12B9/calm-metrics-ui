@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
 import Patients from "./pages/Patients";
+import PatientDetail from "./pages/PatientDetail";
 import Vitals from "./pages/Vitals";
 import Metrics from "./pages/Metrics";
 import Appointments from "./pages/Appointments";
@@ -59,6 +60,7 @@ const App = () => (
             <Route element={<PrivateRoute allowedRoles={["doctor"]} />}>
               <Route element={<AppLayout />}>
                 <Route path="/patients" element={<Patients />} />
+                <Route path="/patients/:id" element={<PatientDetail />} />
               </Route>
             </Route>
             
