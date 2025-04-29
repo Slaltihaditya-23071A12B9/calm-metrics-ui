@@ -28,37 +28,37 @@ const navItems: NavItem[] = [
     icon: Monitor, 
     label: "Dashboard", 
     path: "/dashboard",
-    allowedRoles: ["doctor", "guardian", "admin", "patient"] 
+    allowedRoles: ["doctor", "guardian", "patient"] 
   },
   { 
     icon: Users, 
     label: "Patients", 
     path: "/patients",
-    allowedRoles: ["doctor", "admin"] 
+    allowedRoles: ["doctor"] 
   },
   { 
     icon: HeartPulse, 
     label: "Vitals", 
     path: "/vitals",
-    allowedRoles: ["doctor", "guardian", "admin", "patient"] 
+    allowedRoles: ["doctor", "guardian", "patient"] 
   },
   { 
     icon: ChartLine, 
     label: "Metrics", 
     path: "/metrics",
-    allowedRoles: ["doctor", "guardian", "admin", "patient"] 
+    allowedRoles: ["doctor", "guardian", "patient"] 
   },
   { 
     icon: Calendar, 
     label: "Appointments", 
     path: "/appointments",
-    allowedRoles: ["doctor", "guardian", "admin", "patient"] 
+    allowedRoles: ["doctor", "guardian", "patient"] 
   },
   { 
     icon: Thermometer, 
     label: "Medications", 
     path: "/medications",
-    allowedRoles: ["doctor", "guardian", "admin", "patient"] 
+    allowedRoles: ["doctor", "guardian", "patient"] 
   }
 ];
 
