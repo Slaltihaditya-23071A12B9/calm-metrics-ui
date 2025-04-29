@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, CalendarCell, CalendarGrid, CalendarHeader, CalendarHeadCell, CalendarMonthCell, CalendarRow } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { useAuth } from "@/contexts/AuthContext";
 import { ChevronLeft, ChevronRight, Clock } from "lucide-react";
 
