@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type UserRole = "doctor" | "guardian" | "admin" | "patient";
+export type UserRole = "doctor" | "guardian" | "patient";
 
 export interface User {
   id: string;
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const mockUsers = {
         "doctor@example.com": { id: "d1", name: "Dr. Smith", role: "doctor", email: "doctor@example.com" },
         "guardian@example.com": { id: "g1", name: "Jane Doe", role: "guardian", email: "guardian@example.com" },
-        "admin@example.com": { id: "a1", name: "Admin User", role: "admin", email: "admin@example.com" },
+        "patient@example.com": { id: "p1", name: "John Patient", role: "patient", email: "patient@example.com" },
       };
       
       // Simple validation

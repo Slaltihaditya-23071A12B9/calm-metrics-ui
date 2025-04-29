@@ -12,17 +12,43 @@ interface HeaderProps {
   userRole: string;
 }
 
+interface Notification {
+  id: number;
+  message: string;
+  time: string;
+  type: "alert" | "info" | "reminder";
+}
+
 export const Header = ({ userName, userRole }: HeaderProps) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const notifications = [
-    { id: 1, message: "Blood glucose reading reminder", time: "10 minutes ago" },
-    { id: 2, message: "Dr. Smith appointment tomorrow", time: "2 hours ago" },
-    { id: 3, message: "Medication reminder: Metformin", time: "4 hours ago" },
+  // Role-specific notifications
+  const doctorNotifications: Notification[] = [
+    { id: 1, message: "John Doe's blood glucose reading is elevated", time: "10 minutes ago", type: "alert" },
+    { id: 2, message: "Jane Smith missed her medication", time: "2 hours ago", type: "alert" },
+    { id: 3, message: "New appointment request from Mike Johnson", time: "4 hours ago", type: "info" },
   ];
+
+  const guardianNotifications: Notification[] = [
+    { id: 1, message: "John's blood glucose reading reminder", time: "10 minutes ago", type: "reminder" },
+    { id: 2, message: "Dr. Smith appointment tomorrow", time: "2 hours ago", type: "info" },
+    { id: 3, message: "Medication reminder: Metformin", time: "4 hours ago", type: "reminder" },
+  ];
+
+  const patientNotifications: Notification[] = [
+    { id: 1, message: "Blood glucose reading reminder", time: "10 minutes ago", type: "reminder" },
+    { id: 2, message: "Dr. Smith appointment tomorrow", time: "2 hours ago", type: "info" },
+    { id: 3, message: "Medication reminder: Metformin", time: "4 hours ago", type: "reminder" },
+  ];
+
+  const notifications = userRole === "doctor" 
+    ? doctorNotifications 
+    : userRole === "guardian" 
+      ? guardianNotifications
+      : patientNotifications;
 
   const handleLogout = () => {
     logout();
@@ -37,7 +63,8 @@ export const Header = ({ userName, userRole }: HeaderProps) => {
     <div className="bg-white h-16 px-6 flex items-center justify-between shadow-sm">
       <h1 className="text-xl font-semibold text-gray-800">
         {userRole === "doctor" ? "Doctor Dashboard" : 
-         userRole === "guardian" ? "Guardian Dashboard" : "Dashboard"}
+         userRole === "guardian" ? "Guardian Dashboard" : 
+         userRole === "patient" ? "Patient Dashboard" : "Dashboard"}
       </h1>
       
       <div className="flex items-center space-x-4">
@@ -63,7 +90,12 @@ export const Header = ({ userName, userRole }: HeaderProps) => {
                     key={notification.id}
                     className="px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0"
                   >
-                    <div className="text-sm">{notification.message}</div>
+                    <div className={`text-sm ${
+                      notification.type === 'alert' ? 'text-red-600 font-medium' : 
+                      notification.type === 'info' ? 'text-blue-600' : ''
+                    }`}>
+                      {notification.message}
+                    </div>
                     <div className="text-xs text-gray-500 mt-1">{notification.time}</div>
                   </div>
                 ))}

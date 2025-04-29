@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import { AppLayout } from "@/components/layout/AppLayout";
 
@@ -21,6 +21,15 @@ import Medications from "./pages/Medications";
 
 const queryClient = new QueryClient();
 
+// A wrapper component that redirects based on role
+const RedirectBasedOnRole = () => {
+  const { user } = useAuth();
+  
+  if (!user) return <Navigate to="/login" replace />;
+  
+  return <Navigate to="/dashboard" replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -32,8 +41,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             
-            {/* Redirect root to dashboard */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            {/* Redirect root to appropriate dashboard */}
+            <Route path="/" element={<RedirectBasedOnRole />} />
             
             {/* Protected routes with layout */}
             <Route element={<PrivateRoute />}>
@@ -47,7 +56,7 @@ const App = () => (
             </Route>
             
             {/* Doctor-only routes */}
-            <Route element={<PrivateRoute allowedRoles={["doctor", "admin"]} />}>
+            <Route element={<PrivateRoute allowedRoles={["doctor"]} />}>
               <Route element={<AppLayout />}>
                 <Route path="/patients" element={<Patients />} />
               </Route>

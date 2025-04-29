@@ -63,7 +63,7 @@ const Login = () => {
                 <SelectContent>
                   <SelectItem value="doctor">Doctor</SelectItem>
                   <SelectItem value="guardian">Guardian</SelectItem>
-                  <SelectItem value="admin">Administrator</SelectItem>
+                  <SelectItem value="patient">Patient</SelectItem>
                 </SelectContent>
               </Select>
             </div>
